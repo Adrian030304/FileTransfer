@@ -1,0 +1,2 @@
+FLASK_APP=ftl.py
+FLASK_DEBUG=1
