@@ -10,8 +10,13 @@
     <div class="main-nav">
         <div class="logo">File Transfer</div>
         <div class="nav">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="#">Let's Transfer</a>
+            <a href="{{ url_for('index') }}">
+                <img src="{{url_for('static', filename='img/home.svg')}}" alt="Home">
+                <span>Home</span>
+            </a>
+            <a href="{{ url_for('transfer') }}">
+                <img src="{{ url_for('static', filename='img/luggage.svg') }}" alt="Transfer">
+                <span>Let's Transfer</span></a>
             <a href="#">About</a>
             <a href="#">Contact</a>
             <a href="#">
