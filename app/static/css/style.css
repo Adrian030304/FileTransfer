@@ -1,4 +1,7 @@
-body { margin: 0; font-family: Arial, sans-serif; }
+body { 
+  margin: 0; 
+  font-family: Arial, sans-serif; 
+}
 .main-nav {
     display: flex;
     justify-content: space-between;
@@ -19,4 +22,33 @@ body { margin: 0; font-family: Arial, sans-serif; }
   width: auto;
   vertical-align: middle;
   object-fit: contain;
+}
+
+.main-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2px;
+  background-color: rgb(170, 178, 248);
+}
+
+.inside-content {
+  font-size: 30px;
+  text-align: center;
+}
+
+.form-fields{
+  display: grid;
+  place-items: center;
+  gap: 10px;
+}
+
+.form-fields > label{
+  font-size: medium;
+}
+
+.form-fields > input:nth-child(3){
+  padding: 5px;
+  background-color: #ef6767;
 }

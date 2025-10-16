@@ -2,19 +2,21 @@
 
 {% block content %}
     <div class="main-content">
-        <h3>Transfer your files.</h3>
-        <p>Here you can transfer files with your peers.</p>
-        <p>Limit is up to 500gb.</p>
+        <div class="inside-content">
+            <h3>Transfer your files.</h3>
+            <p>Here you can transfer files with your peers.</p>
+            <p>Limit is up to 500gb.</p>
+        </div>
+        <div class="form">
+            <form action="{{ url_for('transfer')}}" method="post" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <p class="form-fields">
+                    {{form.files.label}}
+                    {{form.files()}}
+                    {{form.submit()}}
+                </p>
+            </form>
+        </div>
     </div>
-
-    <form action="{{ url_for('transfer')}}" method="post" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <p>
-            {{form.files.label}}
-            {{form.files()}}
-        </p>
-        <p>
-            {{form.submit()}}
-        </p>
-    </form>
+    
 {% endblock %}
