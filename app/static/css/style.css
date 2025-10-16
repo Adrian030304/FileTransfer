@@ -1,6 +1,7 @@
 body { 
   margin: 0; 
-  font-family: Arial, sans-serif; 
+  font-family: Arial, sans-serif;  
+  padding:0;
 }
 .main-nav {
     display: flex;
@@ -30,7 +31,6 @@ body {
   align-items: center;
   flex-direction: column;
   gap: 2px;
-  background-color: rgb(170, 178, 248);
 }
 
 .inside-content {

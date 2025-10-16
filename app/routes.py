@@ -27,6 +27,7 @@ def transfer():
             for file in form.files.data:
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(upload_location, folder_name, filename))
+            return redirect()
     return render_template('upload_page.html', form=form)
 
 @app.route('/download-file')
