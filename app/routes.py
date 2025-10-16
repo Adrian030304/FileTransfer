@@ -8,3 +8,11 @@ def home():
 @app.route('/main-page')
 def index():
     return render_template('main_page.html')
+
+@app.route('/transfer-page', methods=['POST','GET'])
+def transfer():
+    return render_template('upload_page.html')
+
+@app.route('/download-file')
+def download_file():
+    pass
