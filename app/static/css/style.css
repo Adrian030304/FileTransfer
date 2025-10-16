@@ -13,3 +13,10 @@ body { margin: 0; font-family: Arial, sans-serif; }
     color: #333;
 }
 .nav a:hover { text-decoration: underline; }
+
+.nav a img {
+  height: 24px;   
+  width: auto;
+  vertical-align: middle;
+  object-fit: contain;
+}
