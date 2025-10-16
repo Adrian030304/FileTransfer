@@ -6,4 +6,12 @@
         <p>Here you can transfer files with your peers.</p>
         <p>Limit is up to 500gb.</p>
     </div>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{form.file.label}}
+            {{form.file}}
+        </p>
+    </form>
 {% endblock %}

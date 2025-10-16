@@ -1,5 +1,8 @@
 from app import app
 from flask import render_template, redirect, url_for
+from werkzeug.utils import secure_filename
+from forms import FileForm
+import os
 
 @app.route('/')
 def home():
@@ -11,7 +14,14 @@ def index():
 
 @app.route('/transfer-page', methods=['POST','GET'])
 def transfer():
-    return render_template('upload_page.html')
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    form = FileForm()
+    if form.validate_on_submit():
+        for file in form.files.data:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    return render_template('upload_page.html', form=form)
 
 @app.route('/download-file')
 def download_file():
