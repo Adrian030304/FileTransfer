@@ -40,7 +40,7 @@ def transfer():
         
     return render_template('upload_page.html', form=form, access_code=access_code)
 
-@app.route('/download-file/<download_code>', methods=['POST', 'GET'])
+@app.route('/download_file/<download_code>', methods=['POST'])
 def download_file(download_code):
     download_directory = os.path.join(upload_location, download_code)
     files_list = os.listdir(download_directory)
@@ -62,12 +62,16 @@ def download_file(download_code):
             os.remove(temp_zip.name)
 
         return response
-
     else:
         try:
             return send_from_directory(download_directory,files_list[0], as_attachment=True)
         except FileNotFoundError:
             return "File not found", 404
     
-    
+
+@app.route('/files-page/<download_code>', methods=['GET','POST'])
+def files_page(download_code):
+    download_directory = os.path.join(upload_location, download_code)
+    files_list = os.listdir(download_directory)
+
     return render_template('download.html', files = files_list )

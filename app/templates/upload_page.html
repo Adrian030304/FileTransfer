@@ -20,9 +20,12 @@
         {% if access_code %}
             <div class="result">
                 <p>Code for download is: <span>{{ access_code }}</span></p>
-                <form action="{{url_for('download_file', download_code=access_code)}}" method="post">
+                <form action="{{url_for('files_page', download_code=access_code)}}" method="post">
                     <input type="submit" value="Download Files">
                 </form>
+                <!-- <form action="{{url_for('download_file', download_code=access_code)}}" method="post">
+                    <input type="submit" value="Download Files">
+                </form> -->
             </div>
         {% endif %}
         

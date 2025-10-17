@@ -17,3 +17,32 @@
     </div>
     
 {% endblock %}
+
+{% block js %}
+    <script>
+        window.load = async function () {
+            let downloadCode = window.location.href;
+            downloadCode = downloadCode.split('/')[downloadCode.split('/').length-1];
+            const url = `/download_file/${downloadCode}`;
+            const response = await fetch (url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+            if (!response.ok) {
+                alert("Download failed!")
+                return
+            }
+
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+
+            link.download = "{{files[0]}}" + (blob.type === 'application/zip' ? '.zip' : '');
+            link.click();
+
+            URL.revokeObjectURL(link.href);
+
+        }
+        window.load()
+    </script>
+{% endblock %}
