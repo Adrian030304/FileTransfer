@@ -14,12 +14,15 @@
             </li>
             {% endfor %}
         </ul>
+        <form action="{{url_for('download_file', download_code=download_code)}}" method="post">
+            <input type="submit" value="Download Files">
+        </form>
     </div>
-    
+        
 {% endblock %}
 
 {% block js %}
-    <script>
+    <!-- <script>
         window.load = async function () {
             let downloadCode = window.location.href;
             downloadCode = downloadCode.split('/')[downloadCode.split('/').length-1];
@@ -44,5 +47,5 @@
 
         }
         window.load()
-    </script>
+    </script> -->
 {% endblock %}

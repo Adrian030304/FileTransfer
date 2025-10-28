@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, url_for, request, send_from_directory, send_file
+from flask import render_template, redirect, url_for, request, send_from_directory, send_file, Response
 from werkzeug.utils import secure_filename
 from .forms import FileForm
 from .utils import generate_random_string
@@ -43,8 +43,10 @@ def transfer():
 @app.route('/download_file/<download_code>', methods=['POST'])
 def download_file(download_code):
     download_directory = os.path.join(upload_location, download_code)
-    files_list = os.listdir(download_directory)
-    # print(os.path.join(download_directory, files_list[0]))
+    try:
+        files_list = os.listdir(download_directory)
+    except FileNotFoundError:
+        return redirect(url_for('transfer'))
 
     if len(files_list) > 1:
         # creez fisier temporar
@@ -56,25 +58,23 @@ def download_file(download_code):
                 filename = os.path.join(download_directory, fisier)
                 fisier_zip.write(filename, fisier) # va fi scris doar numele fisierului in zip fara sa ii apara path ul
         response = send_file(temp_zip.name, mimetype='application/zip', as_attachment=True, download_name=download_code[:6])
-
-        @response.call_on_close
-        def delete_zip():
-            os.remove(temp_zip.name)
-
         return response
     else:
         try:
-            return send_from_directory(download_directory,files_list[0], as_attachment=True)
+            response = send_from_directory(download_directory,files_list[0], as_attachment=True)
+            return response
         except FileNotFoundError:
             return "File not found", 404
-    
+
 
 @app.route('/files-page/<download_code>', methods=['GET','POST'])
 def files_page(download_code):
     download_directory = os.path.join(upload_location, download_code)
-    files_list = os.listdir(download_directory)
-
-    return render_template('download.html', files = files_list )
+    try:
+        files_list = os.listdir(download_directory)
+    except FileNotFoundError:
+        return redirect(url_for('transfer'))
+    return render_template('download.html', files = files_list, download_code=download_code )
 
 
 @app.route('/about')
