@@ -75,3 +75,16 @@ def files_page(download_code):
     files_list = os.listdir(download_directory)
 
     return render_template('download.html', files = files_list )
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/submit-contact', methods=['GET', 'POST'])
+def submit_contact():
+    return render_template('submit-contact.html')

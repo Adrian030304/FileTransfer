@@ -2,13 +2,15 @@ body {
   margin: 0; 
   font-family: Arial, sans-serif;  
   padding:0;
+  background-color: #A9B5DF;
 }
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #000000;
+    background-color: #7886C7;
 }
 .logo { font-weight: bold; font-size: 1.2rem; }
 .nav a {

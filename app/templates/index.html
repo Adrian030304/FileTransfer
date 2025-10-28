@@ -17,8 +17,8 @@
             <a href="{{ url_for('transfer') }}">
                 <img src="{{ url_for('static', filename='img/luggage.svg') }}" alt="Transfer">
                 <span>Let's Transfer</span></a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{url_for('contact')}}">Contact</a>
             <a href="#">
                 <img 
                     src="{{ url_for ('static', filename='img/whiskey.png')}}" 

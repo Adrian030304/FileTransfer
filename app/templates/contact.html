@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="main-content">
+    <div class="inside-content">
+        <h2>Contact</h2>
+        <p>Have a question or need support? I'm here to help.</p>
+
+        <ul>
+        <li>Email: <a href="mailto:mymail@letstransfer.com">mymail@letstransfer.com</a></li>
+        <li>Developer: Adrian</li>
+        <li>Response time: Within 24 hours</li>
+        </ul>
+
+        <form action="/submit-contact" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="5" required></textarea><br>
+
+        <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
