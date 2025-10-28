@@ -37,7 +37,7 @@
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
 
-            link.download = "{{files[0]}}" + (blob.type === 'application/zip' ? '.zip' : '');
+            link.download = blob.type === 'application/zip' ? downloadCode.slice(0,6) : "{{files[0]}}".split('.')[0]  + (blob.type === 'application/zip' ? '.zip' : '');
             link.click();
 
             URL.revokeObjectURL(link.href);
