@@ -1,6 +1,6 @@
-from app import app, socketio
+from app import app #socketio
 from flask import render_template, redirect, url_for, request, send_from_directory, send_file, Response
-from flask_socketio import SocketIO, emit
+# from flask_socketio import SocketIO, emit
 from werkzeug.utils import secure_filename
 from .forms import FileForm
 from .utils import generate_random_string
