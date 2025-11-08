@@ -1,5 +1,6 @@
-from app import app
+from app import app, socketio
 from flask import render_template, redirect, url_for, request, send_from_directory, send_file, Response
+from flask_socketio import SocketIO, emit
 from werkzeug.utils import secure_filename
 from .forms import FileForm
 from .utils import generate_random_string
@@ -7,6 +8,10 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import os, tempfile
 
 upload_location = app.config['UPLOAD_FOLDER']
+
+# @socketio.on('my event')
+# def test_message(message):
+#     emit('my response', {'data': message['data']})
 
 @app.route('/')
 def home():
