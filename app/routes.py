@@ -1,11 +1,14 @@
-from app import app #socketio
-from flask import render_template, redirect, url_for, request, send_from_directory, send_file, Response
-# from flask_socketio import SocketIO, emit
+import os, tempfile, stat
+import sqlalchemy as sql
+from app import app, db #socketio
+from app.models import UploadedFiles
+from flask import render_template, redirect, url_for, request, send_from_directory, send_file, Response, flash
 from werkzeug.utils import secure_filename
 from .forms import FileForm
 from .utils import generate_random_string
 from zipfile import ZipFile, ZIP_DEFLATED
-import os, tempfile
+from datetime import timedelta, datetime
+# from flask_socketio import SocketIO, emit
 
 upload_location = app.config['UPLOAD_FOLDER']
 
@@ -23,15 +26,28 @@ def index():
 
 @app.route('/transfer-page', methods=['POST','GET'])
 def transfer():
-    
     os.makedirs(upload_location, exist_ok=True)
-    
     access_code = None
-
-    form = FileForm()
     saving_folder = None
+    form = FileForm()
+
+    now = datetime.now()
+    removable_files = db.session.scalars(sql.select(UploadedFiles).where(UploadedFiles.expiration_date < now))
+    if removable_files:
+        try:
+            for r in removable_files:
+                os.remove(os.path.join(upload_location, r.id))
+        except PermissionError:
+            return redirect('home')
+        except FileNotFoundError:
+            pass
+
+        db.session.query(UploadedFiles).where(UploadedFiles.expiration_date < now).delete(synchronize_session=False)
+        db.session.commit()     
+
     if request.method == 'POST':
         if form.validate_on_submit():
+            # print(form.data)
             saving_folder = os.path.join(upload_location, str(generate_random_string()))
             os.makedirs(saving_folder,exist_ok=True)
             
@@ -41,7 +57,25 @@ def transfer():
             for file in form.files.data:
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(saving_folder, filename))
-        
+
+            exp_date = form.expiration_date.data
+            if 'minutes' in exp_date:
+                exp_date: str = (exp_date.split(' ')[0]).strip()
+            exp_date = datetime.now() + timedelta(minutes=float(exp_date))
+
+
+            if access_code:
+                sql_file = UploadedFiles(
+                    id=access_code,
+                    file_name=secure_filename(file.filename), 
+                    expiration_date=exp_date
+                    )
+                db.session.add(sql_file)
+                db.session.commit()
+
+                # result = db.session.scalars(sql.Select(UploadedFiles)).first()
+                # print(result)
+
         
     return render_template('upload_page.html', form=form, access_code=access_code)
 
