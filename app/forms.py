@@ -9,6 +9,6 @@ class FileForm(FlaskForm):
                          FileRequired(message='No file was selected.'),
                      ])
     expiration_date = SelectField("Expiration Time", choices=[
-        '2 minutes', '15 minutes', '30 minutes', '1 hour'
+        '2 minutes', '15 minutes', '30 minutes', '1 hours', '3 hours', '6 hours', '12 hours', '1 day', '2 days'
     ])
     submit = SubmitField("Upload your file/s")

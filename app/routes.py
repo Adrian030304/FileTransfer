@@ -5,7 +5,7 @@ from app.models import UploadedFiles
 from flask import render_template, redirect, url_for, request, send_from_directory, send_file, Response, flash
 from werkzeug.utils import secure_filename
 from .forms import FileForm
-from .utils import generate_random_string
+from .utils import generate_random_string, get_time_increment
 from zipfile import ZipFile, ZIP_DEFLATED
 from datetime import timedelta, datetime
 # from flask_socketio import SocketIO, emit
@@ -58,17 +58,14 @@ def transfer():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(saving_folder, filename))
 
-            exp_date = form.expiration_date.data
-            if 'minutes' in exp_date:
-                exp_date: str = (exp_date.split(' ')[0]).strip()
-            exp_date = datetime.now() + timedelta(minutes=float(exp_date))
-
+            current_time = get_time_increment(datetime.now(), form.expiration_date.data)
+            print(current_time)
 
             if access_code:
                 sql_file = UploadedFiles(
                     id=access_code,
                     file_name=secure_filename(file.filename), 
-                    expiration_date=exp_date
+                    expiration_date=current_time
                     )
                 db.session.add(sql_file)
                 db.session.commit()
